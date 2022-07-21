@@ -15,30 +15,17 @@ export class CourseService {
   retrieveAll(): Observable<Course[]> {
     return this.httpClient.get<Course[]>(this.courseUrl);
   }
-  retrieveById(id:number): Course  {
-     let cursoEncontrado;
-     cursoEncontrado = COURSES.find(course => course.id === id);
-     if(cursoEncontrado)
-      return cursoEncontrado;
-     else{
-      return  {
-        code: '',
-        description: '',
-        duration: 0,
-        id: 0,
-        imageUrl:'',
-        name:'',
-        price: 0,
-        rating:0,
-        releaseDate:''
-     }}
-  }
-  save(course:Course) {
-    if(course.id){
-      let index = COURSES.findIndex( curso => curso.id === course.id)
-      COURSES[index] = course;
-    }
+  retrieveById(id:number):Observable<Course>  {
 
+     return this.httpClient.get<Course>(this.courseUrl +'/'+id);
+  }
+  save(course:Course): Observable<Course> {
+    if(course.id){
+     return this.httpClient.put<Course>(this.courseUrl+"/"+course.id,course);
+    }
+    else {
+      return this.httpClient.post<Course>(this.courseUrl,course);
+    }
   }
 }
 
