@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import {Course} from './course'
 
 @Injectable({
-  providedIn:'root'
+  providedIn:"root"
 })
 export class CourseService {
   private courseUrl: string = 'http://localhost:3100/api/courses';
@@ -26,6 +26,10 @@ export class CourseService {
     else {
       return this.httpClient.post<Course>(this.courseUrl,course);
     }
+  }
+
+  deleteById(id : number) : Observable<any> {
+    return this.httpClient.delete<any>(this.courseUrl+"/"+ id);
   }
 }
 
